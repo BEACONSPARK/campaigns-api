@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <property resource="application.properties"/>
+
+    <logger name="org.springframework.web" level="INFO"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{36} -
+                %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+
+    <appender name="FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/grazeit.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{36} -
+                %msg%n
+            </Pattern>
+        </encoder>
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <FileNamePattern>logs/grazeit.%i.log.gz
+            </FileNamePattern>
+            <MinIndex>1</MinIndex>
+            <MaxIndex>10</MaxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>100MB</MaxFileSize>
+        </triggeringPolicy>
+
+    </appender>
+
+    <appender name="GELF"
+              class="biz.paluch.logging.gelf.logback.GelfLogbackAppender">
+        <host>${graylog.protocol}:${graylog.ip}</host>
+        <port>${graylog.port}</port>
+        <version>1.1</version>
+        <facility>npp</facility>
+        <timestampPattern>yyyy-MM-dd HH:mm:ss,SSSS</timestampPattern>
+        <maximumMessageSize>8192</maximumMessageSize>
+        <additionalFields>app_name=${graylog.appname},env=${graylog.env},hostname=${HOSTNAME}</additionalFields>
+    </appender>
+
+    <appender name="NEWRELIC" class="com.engageya.logback.NewRelicAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
+    <if condition='property("spring.profiles.active").equals("production")'>
+        <then>
+            <root level="info">
+                <appender-ref ref="STDOUT"/>
+                <appender-ref ref="FILE"/>
+                <appender-ref ref="GELF"/>
+                <appender-ref ref="NEWRELIC"/>
+            </root>
+        </then>
+    </if>
+
+</configuration>
