@@ -42,7 +42,7 @@ Auto compile: http://stackoverflow.com/questions/12744303/intellij-idea-java-cla
 
 ### Usage
 
-- Run the application and go on http://localhost:8081/backoffice-api
+- Run the application and go on http://localhost:8081/campaigns-api
 - Use the following urls to invoke controllers methods and see the interactions
   with the database:
     * `/create?email=[email]&name=[name]`: create a new user with an auto-generated id and email and name as passed values.
@@ -52,7 +52,7 @@ Auto compile: http://stackoverflow.com/questions/12744303/intellij-idea-java-cla
 ### Production
 You should use different configuration on production.
 Run the project this way:
-`java -javaagent:/home/azureuser/apps/newrelic/newrelic-agent-3.37.0.jar -jar backoffice-api-0.0.1-SNAPSHOT.jar -Dnewrelic.config.file=/home/azureuser/apps/newrelic/newrelic.yml --spring.config.location=file:/home/azureuser/apps/backoffice-api/config/application.properties&`
+`java -javaagent:/home/azureuser/apps/newrelic/newrelic-agent-3.37.0.jar -jar campaigns-api-0.0.1-SNAPSHOT.jar -Dnewrelic.config.file=/home/azureuser/apps/newrelic/newrelic.yml --spring.config.location=file:/home/azureuser/apps/campaigns-api/config/application.properties&`
 #### make sure you the application doesn't die when you close the terminal:
 `disown`
 #### spring.config.location

@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>engageya</groupId>
-    <artifactId>backoffice-api</artifactId>
+    <artifactId>campaigns-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>backoffice-api</name>
+    <name>campaigns-api</name>
     <description>Server side backoffice. Use Spring Data JPA + Hibernate + MySQL in Spring Boot</description>
 
     <properties>
